@@ -1,0 +1,188 @@
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from 'react-native';
+
+const Education = ({navigation}) => {
+  const [expandedCards, setExpandedCards] = useState([]);
+
+  const handleCardPress = index => {
+    const newExpandedCards = [...expandedCards];
+    newExpandedCards[index] = !newExpandedCards[index];
+    setExpandedCards(newExpandedCards);
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.openDrawer()}>
+          <Image
+            source={require('../../icons/menu.png')}
+            style={styles.leftImage}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => console.log('Right image pressed')}>
+          <Image
+            source={require('../../icons/notification.png')}
+            style={styles.rightImage}
+          />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.headingVIew}>
+        <Text style={styles.headingText}>Education</Text>
+      </View>
+      <Text
+        style={{color: 'purple', fontSize: 26, marginLeft: 15, marginTop: 10}}>
+        Education Detail:
+      </Text>
+      <ScrollView horizontal contentContainerStyle={styles.scrollViewContent}>
+        {[1, 2, 3].map(cardIndex => (
+          <TouchableOpacity
+            key={cardIndex}
+            onPress={() => handleCardPress(cardIndex)}>
+            <View
+              style={[
+                styles.card,
+                expandedCards[cardIndex] ? styles.expandedCard : null,
+              ]}>
+              <View style={styles.imageContainer}>
+                {expandedCards[cardIndex] ? (
+                  <Image
+                    source={require('../../icons/sample2.jpg')}
+                    style={[styles.image, styles.expandedImage]}
+                  />
+                ) : (
+                  <Image
+                    source={require('../../icons/sample2.jpg')}
+                    style={styles.image}
+                  />
+                )}
+                {expandedCards[cardIndex] && (
+                  <View style={styles.expandedTextContainer}>
+                    <Text style={styles.expandedTitle}>Matriculation </Text>
+                    <Text style={styles.description}>
+                      This is the expanded content of the card. It can contain
+                      more text or other components.
+                    </Text>
+                  </View>
+                )}
+              </View>
+              {!expandedCards[cardIndex] && (
+                <View style={styles.textContainer}>
+                  <Text style={styles.title}>Matriculation</Text>
+                  <Text style={styles.description}>
+                    This is the description of the card.
+                  </Text>
+                </View>
+              )}
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    backgroundColor: 'purple',
+    height: 70,
+  },
+  leftImage: {
+    width: 30,
+    height: 30,
+    tintColor: 'white',
+  },
+  rightImage: {
+    width: 30,
+    height: 30,
+  },
+  scrollViewContent: {
+    alignItems: 'center',
+  },
+  card: {
+    width: 300,
+    // backgroundColor: 'purple',
+    borderRadius: 10,
+    overflow: 'hidden',
+    flexDirection: 'row',
+    elevation: 1,
+    marginHorizontal: 12,
+  },
+  expandedCard: {
+    height: '95%',
+    // backgroundColor: 'purple',
+    // marginTop: 10,
+    width: '75%',
+  },
+  imageContainer: {
+    width: '50%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  image: {
+    width: '100%',
+    aspectRatio: 1,
+    resizeMode: 'cover',
+  },
+  expandedImage: {
+    width: '100%',
+    height: '40%',
+    // alignSelf:'center',
+    marginTop: 20,
+
+    alignContent: 'center',
+    // resizeMode: 'cover',
+  },
+  textContainer: {
+    flex: 1,
+    padding: 10,
+    color: 'black',
+  },
+  expandedTextContainer: {
+    flex: 1,
+    padding: 15,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: 'black',
+  },
+  expandedTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: 'black',
+  },
+  description: {
+    fontSize: 14,
+    color: 'black',
+  },
+  headingText: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: 'white',
+    marginLeft: 22,
+  },
+  headingVIew: {
+    height: 70,
+    backgroundColor: 'purple',
+    borderBottomRightRadius: 15,
+    borderBottomLeftRadius: 15,
+  },
+});
+
+export default Education;
